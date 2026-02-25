@@ -1,0 +1,18 @@
+{
+  "name": "codingbot-chat-action",
+  "version": "1.0.0",
+  "description": "AI-powered coding assistant GitHub Action",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "deepagents": "latest",
+    "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.6",
+    "tsx": "^4.19.2"
+  }
+}

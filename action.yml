@@ -1,0 +1,86 @@
+name: "CodingBot Chat"
+description: "AI-powered coding assistant that processes GitHub issues and creates PRs"
+author: "David Kiss"
+branding:
+  icon: "message-square"
+  color: "green"
+
+inputs:
+  model:
+    description: "AI model to use"
+    required: false
+    default: "google-genai:gemini-3-flash-preview"
+  prompt-template:
+    description: "System prompt template"
+    required: false
+    default: "You're an expert AI coding assistant. Follow the steps below:\n\n1. Brainstorm task from user {user} and save the generated specs.\n2. Confirm tasks with user then save task breakdown and output it to the user.\n3. Confirm if user is ready to implement the changes.\n4. After user confirmed, implement the code changes based on the specs and task breakdown.\n5. Final output should be <DONE> if the code changes are completed"
+  skills-path:
+    description: "Path to agent skills"
+    required: false
+    default: "~/.agents/skills/"
+  github-token:
+    description: "GitHub token"
+    required: false
+    default: ${{ secrets.GITHUB_TOKEN }}
+
+outputs:
+  response-file:
+    description: "Path to generated response file"
+    value: ${{ steps.setup.outputs.response-file }}
+  pr-url:
+    description: "URL of created PR"
+    value: ${{ steps.post-response.outputs.pr-url }}
+
+runs:
+  using: "composite"
+  steps:
+    - id: setup
+      name: Setup environment
+      shell: bash
+      run: |
+        echo "response-file=bot_response.md" >> $GITHUB_OUTPUT
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+
+    - name: Install dependencies
+      shell: bash
+      run: npm install
+
+    - name: Add Agent skills
+      shell: bash
+      run: npx skills add davidkiss/smart-ai-skills -a opencode -g --skill '*' --yes
+
+    - name: Fetch Issue Data
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}
+      run: gh issue view $ISSUE_NUMBER --json body,comments,author,number,title > issue_view.json
+
+    - name: Run Agent
+      shell: bash
+      env:
+        MODEL: ${{ inputs.model }}
+        PROMPT_TEMPLATE: ${{ inputs.prompt-template }}
+        SKILLS_PATH: ${{ inputs.skills-path }}
+        GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
+      run: npx tsx src/index.ts issue_view.json
+
+    - id: post-response
+      name: Post Response to GitHub
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}
+        ISSUE_TITLE: ${{ github.event.issue.title }}
+      run: bash scripts/post_response.sh "$ISSUE_NUMBER" "$ISSUE_TITLE"
+      continue-on-error: true

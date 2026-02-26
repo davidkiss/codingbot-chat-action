@@ -1,0 +1,23 @@
+{
+  "number": 123,
+  "title": "Implement report generator CLI",
+  "author": {
+    "login": "jane-developer"
+  },
+  "body": "Please help me implement a new CLI command to generate reports. It should accept a --format flag.",
+  "body_": "what's in the ~/.agents/skills directory?",
+  "comments_": [
+    {
+      "author": {
+        "login": "github-actions[bot]"
+      },
+      "body": "I understand. Should the report generator support both CSV and PDF formats, or are there others you need?"
+    },
+    {
+      "author": {
+        "login": "jane-developer"
+      },
+      "body": "Just CSV and JSON for now, thanks!"
+    }
+  ]
+}

@@ -45,6 +45,7 @@ runs:
       shell: bash
       run: |
         echo "response-file=bot_response.md" >> $GITHUB_OUTPUT
+        ls -al ${{ github.action_path }}/package-lock.json
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
 

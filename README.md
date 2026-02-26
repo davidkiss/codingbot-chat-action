@@ -33,8 +33,8 @@ jobs:
 | Input | Default | Description |
 |-------|---------|-------------|
 | model | google-genai:gemini-3-flash-preview | AI model to use |
-| prompt-template | (built-in) | System prompt template |
-| skills-path | ~/.agents/skills/ | Path to agent skills |
+| prompt-template | You're an expert AI coding assistant. Follow the steps below:\n\n1. Brainstorm task from user {user} and save the generated specs.\n2. Confirm tasks with user then save task breakdown and output it to the user.\n3. Confirm if user is ready to implement the changes.\n4. After user confirmed, implement the code changes based on the specs and task breakdown.\n5. Final output should be \<DONE\> if the code changes are completed | System prompt template |
+| skills-path | ~/.agents/skills/ | Path to install agent skills at |
 | skills | davidkiss/smart-ai-skills:reflection,brainstorming,task-breakdown,coding,subagent-task-execution | Semicolon-separated list of skills to install and use for the coding bot (format: package:skill1,skill2;package2:skill3) |
 | github-token | secrets.GITHUB_TOKEN | GitHub token |
 

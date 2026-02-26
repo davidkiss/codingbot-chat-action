@@ -20,8 +20,8 @@ inputs:
     default: "~/.agents/skills/"
   skills:
     description: >
-      Comma-separated list of skills to install.
-      Format: package:skill1,skill2 (e.g., davidkiss/smart-ai-skills:coding,brainstorming)
+      Semicolon-separated list of skills to install.
+      Format: package:skill1,skill2;package2:skill3 (e.g., davidkiss/smart-ai-skills:coding,brainstorming)
     required: false
     default: "davidkiss/smart-ai-skills:reflection,brainstorming,task-breakdown,coding,subagent-task-execution"
   github-token:
@@ -77,11 +77,14 @@ runs:
       run: |
         SKILLS="${{ inputs.skills }}"
         
-        # Parse skills input: package:skill1,skill2,skill3
-        # Split by comma to get individual skill specs
-        IFS=',' read -ra SKILL_SPECS <<< "$SKILLS"
+        # Parse skills input: package:skill1,skill2;package2:skill3,skill4
+        # Split by semicolon to get individual package specs
+        IFS=';' read -ra PACKAGE_SPECS <<< "$SKILLS"
         
-        for spec in "${SKILL_SPECS[@]}"; do
+        for spec in "${PACKAGE_SPECS[@]}"; do
+          # Skip empty specs
+          [ -z "$spec" ] && continue
+          
           # Split by colon to get package and skills list
           IFS=':' read -ra PARTS <<< "$spec"
           package="${PARTS[0]}"

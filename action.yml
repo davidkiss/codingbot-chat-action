@@ -65,12 +65,12 @@ runs:
       with:
         node-version: '20'
         cache: 'npm'
-        cache-dependency-path: ${GITHUB_ACTION_PATH}/package-lock.json
+        cache-dependency-path: ${{ github.action_path }}/package-lock.json
 
     - name: Install dependencies
       shell: bash
       run: |
-        cd ${GITHUB_ACTION_PATH}
+        cd ${{ github.action_path }}
         npm install
 
     - name: Add Agent skills
@@ -121,7 +121,7 @@ runs:
         GOOGLE_API_KEY: ${{ env.GOOGLE_API_KEY }}
         OPENAI_API_KEY: ${{ env.OPENAI_API_KEY }}
         ANTHROPIC_API_KEY: ${{ env.ANTHROPIC_API_KEY }}
-      run: npx tsx ${GITHUB_ACTION_PATH}/src/index.ts chat_history.json
+      run: npx tsx ${{ github.action_path }}/src/index.ts chat_history.json
 
     - id: post-response
       name: Post Response to GitHub

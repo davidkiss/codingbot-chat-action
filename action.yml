@@ -62,7 +62,9 @@ runs:
 
     - name: Install dependencies
       shell: bash
-      run: npm install
+      run: |
+        cd ${GITHUB_ACTION_PATH}
+        npm install
 
     - name: Add Agent skills
       shell: bash

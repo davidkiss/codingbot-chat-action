@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import { CompositeBackend, createDeepAgent, FilesystemBackend, StoreBackend } from 'deepagents';
+import { InMemoryStore } from "@langchain/langgraph-checkpoint";
 import path from 'path';
 
 interface GitHubComment {
@@ -71,6 +72,7 @@ async function runAgent(): Promise<void> {
             }),
             { "/conversation_history/": new StoreBackend(config) }
         ),
+        store: new InMemoryStore(),
         skills: [skillsPath],
     });
 

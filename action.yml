@@ -118,6 +118,8 @@ runs:
         PROMPT_TEMPLATE: ${{ inputs.prompt-template }}
         SKILLS_PATH: ${{ inputs.skills-path }}
         GOOGLE_API_KEY: ${{ env.GOOGLE_API_KEY }}
+        OPENAI_API_KEY: ${{ env.OPENAI_API_KEY }}
+        ANTHROPIC_API_KEY: ${{ env.ANTHROPIC_API_KEY }}
       run: npx tsx ${GITHUB_ACTION_PATH}/src/index.ts issue_view.json
 
     - id: post-response

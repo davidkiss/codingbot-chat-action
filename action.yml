@@ -42,6 +42,15 @@ runs:
       env:
         GITHUB_TOKEN: ${{ inputs.github-token }}
 
+    - name: Acknowledge Comment # reaction to issue is not supported atm
+      shell: bash
+      run: |
+        if [ "${{ github.event_name }}" = "issue_comment" ]; then
+          gh api repos/${{ github.repository }}/issues/comments/${{ github.event.comment.id }}/reactions -f content='eyes'
+        fi
+      env:
+        GH_TOKEN: ${{ inputs.github-token }}
+
     - name: Checkout repository
       uses: actions/checkout@v4
 

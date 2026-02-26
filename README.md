@@ -35,6 +35,7 @@ jobs:
 | model | google-genai:gemini-3-flash-preview | AI model to use |
 | prompt-template | (built-in) | System prompt template |
 | skills-path | ~/.agents/skills/ | Path to agent skills |
+| skills | davidkiss/smart-ai-skills:reflection,brainstorming,task-breakdown,coding,subagent-task-execution | Semicolon-separated list of skills to install (format: package:skill1,skill2;package2:skill3) |
 | github-token | secrets.GITHUB_TOKEN | GitHub token |
 
 ## Outputs

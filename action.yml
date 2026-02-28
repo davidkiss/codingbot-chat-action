@@ -80,37 +80,7 @@ runs:
 
     - name: Add Agent skills
       shell: bash
-      run: |
-        SKILLS="${{ inputs.skills }}"
-        
-        # Parse skills input: package:skill1,skill2;package2:skill3,skill4
-        # Split by semicolon to get individual package specs
-        IFS=';' read -ra PACKAGE_SPECS <<< "$SKILLS"
-        
-        for spec in "${PACKAGE_SPECS[@]}"; do
-          # Skip empty specs
-          [ -z "$spec" ] && continue
-          
-          # Split by colon to get package and skills list
-          IFS=':' read -ra PARTS <<< "$spec"
-          package="${PARTS[0]}"
-          skills_list="${PARTS[1]:-}"
-          
-          if [ -z "$skills_list" ] || [ "$skills_list" = "*" ]; then
-            # Install all skills from package
-            echo "Installing all skills from $package"
-            npx skills add "$package" -a opencode -g --skill '*' --yes || echo "Warning: Failed to install skills from $package"
-          else
-            # Install specific skills (comma-separated list)
-            IFS=',' read -ra SKILLS <<< "$skills_list"
-            skill_flags=""
-            for skill in "${SKILLS[@]}"; do
-              skill_flags="$skill_flags --skill $skill"
-            done
-            echo "Installing skills from $package: $skills_list"
-            npx skills add "$package" -a opencode -g $skill_flags --yes || echo "Warning: Failed to install skills from $package"
-          fi
-        done
+      run: bash ${{ github.action_path }}/scripts/install_skills.sh "${{ inputs.skills }}"
 
     - name: Fetch Issue Data
       shell: bash

@@ -3,7 +3,7 @@
 An AI-powered coding assistant GitHub Action that processes GitHub issues and creates PRs when tasks complete.
 
 ## Usage
-See below for an example of how to use the action in your workflow.
+See below for an example of how to use the action in your workflow. Create a `.github/workflows/codingbot-chat.yml` file and add the YAML configuration below.
 
 The action is triggered when an issue is opened or commented on, and the issue has a `codingbot` label.
 

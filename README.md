@@ -3,6 +3,9 @@
 An AI-powered coding assistant GitHub Action that processes GitHub issues and creates PRs when tasks complete.
 
 ## Usage
+See below for an example of how to use the action in your workflow.
+
+The action is triggered when an issue is opened or commented on, and the issue has a `codingbot` label.
 
 ```yaml
 name: CodingBot Chat
@@ -15,13 +18,16 @@ on:
 
 jobs:
   codingbot-chat:
+    if: |
+      (github.event_name == 'issues' && contains(github.event.issue.labels.*.name, 'codingbot')) ||
+      (github.event_name == 'issue_comment' && contains(github.event.issue.labels.*.name, 'codingbot'))
     runs-on: ubuntu-latest
     permissions:
       issues: write
       contents: write
       pull-requests: write
     steps:
-      - uses: davidkiss/codingbot-chat-action@v1.0.6
+      - uses: davidkiss/codingbot-chat-action@v1.0.8
         with:
           model: google-genai:gemini-3-flash-preview
         env:

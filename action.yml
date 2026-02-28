@@ -103,10 +103,12 @@ runs:
           else
             # Install specific skills (comma-separated list)
             IFS=',' read -ra SKILLS <<< "$skills_list"
+            skill_flags=""
             for skill in "${SKILLS[@]}"; do
-              echo "Installing skill '$skill' from $package"
-              npx skills add "$package" -a opencode -g --skill "$skill" --yes || echo "Warning: Failed to install skill '$skill' from $package"
+              skill_flags="$skill_flags --skill $skill"
             done
+            echo "Installing skills from $package: $skills_list"
+            npx skills add "$package" -a opencode -g $skill_flags --yes || echo "Warning: Failed to install skills from $package"
           fi
         done
 

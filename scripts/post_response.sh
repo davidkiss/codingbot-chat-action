@@ -7,7 +7,7 @@ ISSUE_TITLE=$2
 
 if [ -f bot_response.md ]; then
   if tail -n 1 bot_response.md | grep -q "<DONE>"; then
-    rm -f issue_view.json bot_response.md
+    rm -f chat_history.json bot_response.md .codingbot-package-lock.json
 
     echo "Coding completed. Creating Git Branch..."
     

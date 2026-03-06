@@ -93,7 +93,9 @@ runs:
 
     - name: Add Agent skills
       shell: bash
-      run: bash ${{ github.action_path }}/scripts/install_skills.sh "${{ inputs.skills }}"
+      run: |
+        SKILLS=$(echo "${{ inputs.skills }}" | tr '\n' ';')
+        bash ${{ github.action_path }}/scripts/install_skills.sh "$SKILLS"
 
     - name: Fetch Issue Data
       shell: bash

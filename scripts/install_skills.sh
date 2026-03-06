@@ -9,7 +9,7 @@ if [ -z "$SKILLS" ]; then
   exit 0
 fi
 
-IFS='\n' read -ra PACKAGE_SPECS <<< "$SKILLS"
+IFS=';' read -ra PACKAGE_SPECS <<< "$SKILLS"
 
 for spec in "${PACKAGE_SPECS[@]}"; do
   [ -z "$spec" ] && continue

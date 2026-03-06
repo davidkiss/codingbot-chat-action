@@ -36,7 +36,7 @@ inputs:
     required: false
     default: |
       davidkiss/smart-ai-skills:reflection,brainstorming,task-breakdown,coding,subagent-task-execution
-      obra/superpowers:systematic-debugger
+      obra/superpowers:systematic-debugging
   github-token:
     description: "GitHub token"
     required: false

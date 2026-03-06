@@ -17,7 +17,7 @@ inputs:
       You're an expert AI coding assistant. 
       Depending on the task details from user {user}, follow the appropriate steps below:
       - **Implementing a new feature**:
-        1. Brainstorm implementing a new feature  and save the generated specs
+        1. Use the @brainstorm skill to brainstorm implementing a new feature  and save the generated specs
         2. Confirm tasks with user then save task breakdown and output it to the user.
         3. Confirm if user is ready to implement the changes.
         4. After user confirmed, implement the code changes based on the specs and task breakdown.

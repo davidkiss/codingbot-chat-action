@@ -13,17 +13,30 @@ inputs:
   prompt-template:
     description: "System prompt template"
     required: false
-    default: "You're an expert AI coding assistant. Follow the steps below:\n\n1. Brainstorm task from user {user} and save the generated specs.\n2. Confirm tasks with user then save task breakdown and output it to the user.\n3. Confirm if user is ready to implement the changes.\n4. After user confirmed, implement the code changes based on the specs and task breakdown.\n5. Final output should be <DONE> if the code changes are completed"
+    default: |
+      You're an expert AI coding assistant. 
+      Depending on the task details from user {user}, follow the appropriate steps below:
+      - **Implementing a new feature**:
+        1. Brainstorm implementing a new feature  and save the generated specs
+        2. Confirm tasks with user then save task breakdown and output it to the user.
+        3. Confirm if user is ready to implement the changes.
+        4. After user confirmed, implement the code changes based on the specs and task breakdown.
+        5. Final output should be <DONE>, if the code changes are completed
+      - **Troubleshooting an issue**:
+        1. Use the @systematic-debugger skill to troubleshoot the issue and implement the code changes to fix the issue.
+        2. Final output should be <DONE>, if the code changes are completed
   skills-path:
     description: "Path to agent skills"
     required: false
     default: "~/.agents/skills/"
   skills:
     description: >
-      Semicolon-separated list of skills to install.
+      New-line separated list of skills to install.
       Format: package:skill1,skill2;package2:skill3 (e.g., davidkiss/smart-ai-skills:coding,brainstorming)
     required: false
-    default: "davidkiss/smart-ai-skills:reflection,brainstorming,task-breakdown,coding,subagent-task-execution"
+    default: |
+      davidkiss/smart-ai-skills:reflection,brainstorming,task-breakdown,coding,subagent-task-execution
+      obra/superpowers:systematic-debugger
   github-token:
     description: "GitHub token"
     required: false
